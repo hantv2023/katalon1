@@ -17,3 +17,21 @@ import com.kms.katalon.core.windows.keyword.WindowsBuiltinKeywords as Windows
 import internal.GlobalVariable as GlobalVariable
 import org.openqa.selenium.Keys as Keys
 
+WS.comment('User sends submit an order request ')
+
+response = WS.sendRequest(findTestObject('Submit an order', [('URL') : GlobalVariable.URL, ('authToken') : GlobalVariable.authToken]))
+
+WS.comment('Then user get response with status ')
+
+WS.verifyResponseStatusCode(response, 201)
+
+orderId = WS.getElementPropertyValue(response, 'orderId')
+
+GlobalVariable.orderId = orderId
+
+println(GlobalVariable.orderId)
+
+WS.comment('And response body will contain the order Id')
+
+WS.containsString(response, 'orderId', false)
+

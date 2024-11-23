@@ -16,12 +16,15 @@ import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 import com.kms.katalon.core.windows.keyword.WindowsBuiltinKeywords as Windows
 import internal.GlobalVariable as GlobalVariable
 import org.openqa.selenium.Keys as Keys
-import groovy.json.JsonSlurper
+import groovy.json.JsonSlurper as JsonSlurper
 
 WS.comment('User sends API authentication request')
 
 response = WS.sendRequest(findTestObject('API Authentication', [('URL') : GlobalVariable.URL]))
 
-// Set the global variable for orderId
-jsonResponse = new groovy.json.JsonSlurper().parseText(response.getResponseText())
-GlobalVariable.authToken = jsonResponse.accessToken
+accessToken = WS.getElementPropertyValue(response, 'accessToken')
+
+GlobalVariable.authToken = accessToken
+
+println(GlobalVariable.authToken)
+
